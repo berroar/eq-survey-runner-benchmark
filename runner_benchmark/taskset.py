@@ -3,6 +3,7 @@ import os
 import random
 import re
 import time
+import logging
 
 from locust import TaskSet, task
 
@@ -11,6 +12,7 @@ from .questionnaire_mixins import QuestionnaireMixins
 from .token_generator import create_token
 
 r = random.Random()
+logger = logging.getLogger(__name__)
 
 
 class SurveyRunnerTaskSet(TaskSet, QuestionnaireMixins):
@@ -21,6 +23,7 @@ class SurveyRunnerTaskSet(TaskSet, QuestionnaireMixins):
         self.redirect_params = {}
         self.include_survey_url_in_token = os.getenv(
             'INCLUDE_SURVEY_URL_IN_TOKEN', 'false').lower() == 'true'
+        logger.info("INCLUDE_SURVEY_URL_IN_TOKEN", include_survey_url_in_token=self.include_survey_url_in_token)
 
         requests_filepath = os.environ.get('REQUESTS_JSON', 'requests.json')
 
